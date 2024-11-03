@@ -43,7 +43,9 @@ def start() -> None:
 
     # date_to_format = "2024-03-11T02:26:18.671407"
     try:
-        date_to_format = input("\nВведите неотформатированную строку с датой (0 - выход): \n").strip()
+        date_to_format = input(
+            "\nВведите неотформатированную строку с датой (0 - выход): \n"
+        ).strip()
         if date_to_format != "0":
             print(f"Дата: {widget.get_date(date_to_format)}")
     except Exception:

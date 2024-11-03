@@ -12,6 +12,7 @@ def mask_account_card(string_: str) -> list:
 
     return account
 
+
 def get_date(date_string: str) -> str:
     """Функция форматирует дату, полученную в качестве аргумента"""
     # извлекаем символы до буквы "Т",
