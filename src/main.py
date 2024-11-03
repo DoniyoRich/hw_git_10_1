@@ -1,9 +1,11 @@
 import masks
 import widget
 
+
 def start() -> None:
     """
-    Основная функция программы. Запрашивает номера карты и счета у Пользователя.
+    Основная функция программы. Запрашивает строку,
+    содержащую тип и номер карты или счета у Пользователя.
     Корректность ввода данных проверяется в отдельной функции.
     """
     print(
@@ -13,66 +15,39 @@ def start() -> None:
     Маскированный счет отображается следующим образом: **XXXX, где X — последние цифры счета.
     """
     )
-    # Запрашиваем корректный номер карты
-    card_number = correct_input("Введите 16-значный номер карты без пробелов (0 - далее): \n", "card", 16)
-    # card_number = "3216547896541256"
+    # Запрашиваем строку, содержащую тип и номер карты или счета у Пользователя
+    account_or_card = input(
+        "Введите строку, содержащую тип и номер карты или счета (0 - пропустить): \n"
+    ).strip()
 
-    if card_number != "0":
-        masked_number = masks.get_mask_card_number(card_number)
-        print(f"Замаскированный номер карты: {masked_number}\n")
+    # account_or_card = "Maestro 1596837868705199"
+    # account_or_card = "Счет 64686473678894779589"
+    # account_or_card = "MasterCard 7158300734726758"
+    # account_or_card = "Счет 35383033474447895560"
+    # account_or_card = "Visa Classic 6831982476737658"
+    # account_or_card = "Visa Platinum 8990922113665229"
+    # account_or_card = "Visa Gold 5999414228426353"
+    # account_or_card = "Счет 73654108430135874305"
 
-    # Запрашиваем корректный номер счета
-    account_number = correct_input("Введите 20-значный номер счета (0 - далее): \n", "account", 20)
-    # account_number = "32165478965412560000"
-
-    if account_number != "0":
-
-        masked_account = masks.get_mask_account(account_number)
-        print(f"Замаскированный номер счёта: {masked_account}")
-
-    # string_to_separate = "Maestro 1596837868705199"
-    string_to_separate = "Счет 64686473678894779589"
-    # string_to_separate = "MasterCard 7158300734726758"
-    # string_to_separate = "Счет 35383033474447895560"
-    # string_to_separate = "Visa Classic 6831982476737658"
-    # string_to_separate = "Visa Platinum 8990922113665229"
-    # string_to_separate = "Visa Gold 5999414228426353"
-    # string_to_separate = "Счет 73654108430135874305"
-
-    account_separated = widget.mask_account_card(string_to_separate)
-    if account_separated[0] == "Счет":
-        print(f"Счёт {masks.get_mask_account(account_separated[1])}")
-    else:
-        print(f"{account_separated[0]} {masks.get_mask_card_number(account_separated[1])}")
-
-
-    date_to_format = "2024-03-11T02:26:18.671407"
-    # date_to_format = input("Введите неотформатированную строку с датой (0 - выход): \n")
-    if date_to_format != "0":
-        print(f"Дата: {widget.get_date(date_to_format)}")
-
-
-def correct_input(invite_string: str, number_type: str, number_length: int) -> str:
-    """
-    Функция выполняется до тех пор, пока пользователь не введет
-    корректные данные для обработки.
-    """
-    while True:
+    if account_or_card != "0":
         try:
-            correct_number = input(invite_string).strip()
-            if correct_number.isdigit():
-                if correct_number == "0":
-                    return "0"
-                elif (number_type == "card" and len(correct_number) == 16) or (
-                    number_type == "account" and len(correct_number) == 20
-                ):
-                    return correct_number
+            account_separated = widget.mask_account_card(account_or_card)
+            if account_separated[0] == "Счет":
+                print(f"Счёт {masks.get_mask_account(account_separated[1])}")
             else:
-                print("Пожалуйста, введите цифры без пробелов.\n")
+                print(
+                    f"{account_separated[0]} {masks.get_mask_card_number(account_separated[1])}"
+                )
         except Exception:
-            print("Пожалуйста, введите только цифры.\n")
+            print("Что-то пошло не так.")
 
-    return ""
+    # date_to_format = "2024-03-11T02:26:18.671407"
+    try:
+        date_to_format = input("\nВведите неотформатированную строку с датой (0 - выход): \n").strip()
+        if date_to_format != "0":
+            print(f"Дата: {widget.get_date(date_to_format)}")
+    except Exception:
+        print("Что-то пошло не так.")
 
 
 if __name__ == "__main__":
